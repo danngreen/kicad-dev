@@ -165,6 +165,10 @@ EDA_DRAW_FRAME::EDA_DRAW_FRAME( KIWAY* aKiway, wxWindow* aParent,
     m_movingCursorWithKeyboard = false;
     m_zoomLevelCoeff      = 1.0;
 
+    wxLog* logger = new wxLogStream(&std::cout);
+    wxLog::SetActiveTarget(logger);
+    wxLogMessage("begin log");
+
     m_auimgr.SetFlags(wxAUI_MGR_DEFAULT|wxAUI_MGR_LIVE_RESIZE);
 
     CreateStatusBar( 6 );
@@ -233,6 +237,7 @@ void EDA_DRAW_FRAME::OnCharHook( wxKeyEvent& event )
 {
     // Key events can be filtered here.
     // Currently no filtering is made.
+    wxLogMessage("common/draw_frame.cpp EDA_DRAW_FRAME:OnCharHook skip. key = %d", event.GetKeyCode());
     event.Skip();
 }
 
@@ -384,7 +389,8 @@ void EDA_DRAW_FRAME::ReCreateMenuBar()
 
 bool EDA_DRAW_FRAME::OnHotKey( wxDC* aDC, int aHotKey, const wxPoint& aPosition, EDA_ITEM* aItem )
 {
-    return false;
+ wxLogMessage("EDA_DRAW_FRAME::OnHotKey: aHotKey=%d", aHotKey);
+   return false;
 }
 
 int EDA_DRAW_FRAME::WriteHotkeyConfig( struct EDA_HOTKEY_CONFIG* aDescList, wxString* aFullFileName )

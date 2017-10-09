@@ -35,7 +35,7 @@
 // see also enum common_hotkey_id_commnand in hotkeys_basic.h
 // for shared hotkeys id
 enum hotkey_id_commnand {
-    HK_DELETE = HK_COMMON_END,
+    HK_DELETE = HK_COMMON_END, //18
     HK_BACK_SPACE,
     HK_ROTATE_ITEM,
     HK_FLIP_ITEM,
@@ -46,7 +46,7 @@ enum hotkey_id_commnand {
     HK_DRAG_ITEM,
     HK_GET_AND_MOVE_FOOTPRINT,
     HK_LOCK_UNLOCK_FOOTPRINT,
-    HK_ADD_NEW_TRACK,
+    HK_ADD_NEW_TRACK, //29
     HK_ADD_THROUGH_VIA,
     HK_SEL_LAYER_AND_ADD_THROUGH_VIA,
     HK_ADD_BLIND_BURIED_VIA,

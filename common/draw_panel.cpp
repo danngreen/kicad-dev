@@ -1338,6 +1338,7 @@ void EDA_DRAW_PANEL::OnMouseEvent( wxMouseEvent& event )
 
 void EDA_DRAW_PANEL::OnCharHook( wxKeyEvent& event )
 {
+    wxLogMessage("common/draw_panel.cpp EDA_DRAW_PANEL:OnCharHook");
     event.Skip();
 }
 
@@ -1347,6 +1348,7 @@ void EDA_DRAW_PANEL::OnKeyEvent( wxKeyEvent& event )
     wxPoint pos;
 
     localkey = event.GetKeyCode();
+    wxLogMessage("common/draw_panel.cpp EDA_DRAW_PANEL:OnKeyEvent %d", localkey);
 
     switch( localkey )
     {

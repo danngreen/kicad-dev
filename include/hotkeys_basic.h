@@ -251,7 +251,7 @@ enum common_hotkey_id_commnand {
     HK_ZOOM_SELECTION,
     HK_UNDO,
     HK_REDO,
-    HK_COMMON_END
+    HK_COMMON_END //18
 };
 
 #endif // HOTKEYS_BASIC_H

@@ -336,8 +336,10 @@ bool PCB_EDIT_FRAME::GeneralControl( wxDC* aDC, const wxPoint& aPosition, EDA_KE
 
     if( aHotKey && OnHotKey( aDC, aHotKey, aPosition ) )
     {
+        wxLogMessage("pcbnew/controle.cpp PCB_EDIT_FRAME::GeneralControl %d", aHotKey);
         keyHandled = true;
     }
+    else wxLogMessage("no hotkey %d", aHotKey);
 
     UpdateStatusBar();    // Display new cursor coordinates
 

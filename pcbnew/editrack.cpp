@@ -101,10 +101,14 @@ TRACK* PCB_EDIT_FRAME::Begin_Route( TRACK* aTrack, wxDC* aDC )
     LSET    layerMask( GetScreen()->m_Active_Layer );
     wxPoint pos = GetCrossHairPosition();
 
+    wxLogMessage("pcbnew/editrack.cpp PCB_EDIT_FRAME::Begin_Route start. pos = %d %d", pos.x, pos.y);
+
     BOARD_CONNECTED_ITEM* lockPoint;
 
     if( aTrack == NULL )  // Starting a new track segment
     {
+        wxLogMessage("pcbnew/editrack.cpp PCB_EDIT_FRAME::Begin_Route aTrack==NULL");
+
         m_canvas->SetMouseCapture( ShowNewTrackWhenMovingCursor, Abort_Create_Track );
 
         // Prepare the undo command info
@@ -127,6 +131,8 @@ TRACK* PCB_EDIT_FRAME::Begin_Route( TRACK* aTrack, wxDC* aDC )
         D_PAD* pad = NULL;
         if( lockPoint ) // An item (pad or track) is found
         {
+            wxLogMessage("pcbnew/editrack.cpp PCB_EDIT_FRAME::Begin_Route lockpoint");
+
             if( lockPoint->Type() == PCB_PAD_T )
             {
                 pad = (D_PAD*) lockPoint;
@@ -144,6 +150,7 @@ TRACK* PCB_EDIT_FRAME::Begin_Route( TRACK* aTrack, wxDC* aDC )
         }
         else
         {
+            wxLogMessage("pcbnew/editrack.cpp PCB_EDIT_FRAME::Begin_Route !lockpoint");
             // Not a starting point, but a filled zone area can exist. This is also a
             // good starting point.
             ZONE_CONTAINER* zone;
@@ -222,6 +229,8 @@ TRACK* PCB_EDIT_FRAME::Begin_Route( TRACK* aTrack, wxDC* aDC )
     }
     else   // Track in progress : segment coordinates are updated by ShowNewTrackWhenMovingCursor.
     {
+        wxLogMessage("pcbnew/editrack.cpp PCB_EDIT_FRAME::Begin_Route track in progress");
+
         // Test for a D.R.C. error:
         if( Settings().m_legacyDrcOn )
         {

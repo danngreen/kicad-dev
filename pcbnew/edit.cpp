@@ -72,6 +72,8 @@ void PCB_EDIT_FRAME::Process_Special_Functions( wxCommandEvent& event )
 
     m_canvas->CrossHairOff( &dc );
 
+wxLogMessage("PCB_EDIT_FRAME::Process_Special_Functions %d", id);
+
     switch( id )   // Some (not all ) edit commands must be finished or aborted
     {
     case wxID_CUT:

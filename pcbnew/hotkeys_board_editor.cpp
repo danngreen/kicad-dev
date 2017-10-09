@@ -63,6 +63,8 @@ EDA_HOTKEY* PCB_EDIT_FRAME::GetHotKeyDescription( int aCommand ) const
 bool PCB_EDIT_FRAME::OnHotKey( wxDC* aDC, int aHotkeyCode, const wxPoint& aPosition,
                                EDA_ITEM* aItem )
 {
+wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotKey %d (%c)", aHotkeyCode, aHotkeyCode);
+
     if( aHotkeyCode == 0 )
         return false;
 
@@ -87,6 +89,7 @@ bool PCB_EDIT_FRAME::OnHotKey( wxDC* aDC, int aHotkeyCode, const wxPoint& aPosit
         return false;
 
     int hk_id = HK_Descr->m_Idcommand;
+wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotKey hkid=%d", hk_id);
 
     // Create a wxCommandEvent that will be posted in some hot keys functions
     wxCommandEvent cmd( wxEVT_COMMAND_MENU_SELECTED );
@@ -892,14 +895,20 @@ bool PCB_EDIT_FRAME::OnHotkeyPlaceItem( wxDC* aDC )
 
 TRACK * PCB_EDIT_FRAME::OnHotkeyBeginRoute( wxDC* aDC )
 {
+    wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute start");
+
     if( !IsCopperLayer( GetActiveLayer() ) )
         return NULL;
+
+    wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute iscopperlayer==true");
 
     bool itemCurrentlyEdited = GetCurItem() && GetCurItem()->GetFlags();
 
     // Ensure the track tool is active
     if( GetToolId() != ID_TRACK_BUTT && !itemCurrentlyEdited )
     {
+            wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute gettoolid() != track_butt && !track in progress");
+
         wxCommandEvent cmd( wxEVT_COMMAND_MENU_SELECTED );
         cmd.SetEventObject( this );
         cmd.SetId( ID_TRACK_BUTT );
@@ -909,10 +918,14 @@ TRACK * PCB_EDIT_FRAME::OnHotkeyBeginRoute( wxDC* aDC )
     if( GetToolId() != ID_TRACK_BUTT )
         return NULL;
 
+    wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute gettoolid() still != track_butt");
+
     TRACK* track = NULL;
 
     if( !itemCurrentlyEdited )     // no track in progress:
     {
+        wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute no track in progress");
+
         track = Begin_Route( NULL, aDC );
         SetCurItem( track );
 
@@ -921,15 +934,22 @@ TRACK * PCB_EDIT_FRAME::OnHotkeyBeginRoute( wxDC* aDC )
     }
     else if( GetCurItem()->IsNew() )
     {
-        track = Begin_Route( (TRACK*) GetCurItem(), aDC );
+        wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute getcuritem->isnew");
+       track = Begin_Route( (TRACK*) GetCurItem(), aDC );
 
         // SetCurItem() must not write to the msg panel
         // because a track info is displayed while moving the mouse cursor
         if( track )      // A new segment was created
             SetCurItem( track, false );
+        else
+            wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute no track");
+
 
         m_canvas->SetAutoPanRequest( true );
     }
+    else
+    wxLogMessage("pcbnew/hotkeys_board_editor.cpp PCB_EDIT_FRAME::OnHotkeyBeginRoute neither");
+
 
     return track;
 }
