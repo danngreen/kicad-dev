@@ -360,6 +360,8 @@ void TOOL_DISPATCHER::DispatchWxEvent( wxEvent& aEvent )
         key = ke->GetKeyCode();
         keyIsSpecial = isKeySpecialCode( key );
 
+        wxLogMessage("tool_dispatcher.cpp TOOL_DISPATCHER::DispatchWxEvent type=%d key=%d keyispsecial=%d", type, key, keyIsSpecial );
+
         // if the key event must be skipped, skip it here if the event is a wxEVT_CHAR_HOOK
         // and do nothing.
         // a wxEVT_CHAR will be fired by wxWidgets later for this key.
@@ -367,16 +369,18 @@ void TOOL_DISPATCHER::DispatchWxEvent( wxEvent& aEvent )
         {
             if( !keyIsSpecial )
             {
+                wxLogMessage("tool_dispatcher.cpp TOOL_DISPATCHER::DispatchWxEvent EVT_CHAR_HOOK event skipped" );
                 aEvent.Skip();
                 return;
             }
             else
             key = translateSpecialCode( key );
-        }
+            wxLogMessage("tool_dispatcher.cpp TOOL_DISPATCHER::DispatchWxEvent EVT_CHAR_HOOK event translated key=%d", key );
+       }
 
         int mods = decodeModifiers( ke );
 
-        // wxLogMessage( "key %d evt type %d", key, type );
+        wxLogMessage( "tool_dispatcher: key %d evt type %d", key, type );
 
         if( mods & MD_CTRL )
         {

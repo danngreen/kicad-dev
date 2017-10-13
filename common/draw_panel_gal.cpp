@@ -405,13 +405,18 @@ bool EDA_DRAW_PANEL_GAL::SwitchBackend( GAL_TYPE aGalType )
 
 void EDA_DRAW_PANEL_GAL::onEvent( wxEvent& aEvent )
 {
+    wxLogMessage("draw_panel_gal.cpp EDA_DRAW_PANEL_GAL::onEvent key = %d. (EVT_CHAR_HOOK=%d EVT_CHAR=%d)", aEvent.GetEventType(), (int)wxEVT_CHAR, (int)wxEVT_CHAR_HOOK );
     if( m_lostFocus && m_stealsFocus )
         SetFocus();
 
-    if( !m_eventDispatcher )
+    if( !m_eventDispatcher ){
+        wxLogMessage("draw_panel_gal.cpp EDA_DRAW_PANEL_GAL::onEvent skipped" );
         aEvent.Skip();
-    else
+    }
+    else{
+        wxLogMessage("draw_panel_gal.cpp EDA_DRAW_PANEL_GAL::onEvent dispatched" );
         m_eventDispatcher->DispatchWxEvent( aEvent );
+    }
 
     Refresh();
 }

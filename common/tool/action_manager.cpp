@@ -116,6 +116,8 @@ bool ACTION_MANAGER::RunHotKey( int aHotKey ) const
     if( key >= 'a' && key <= 'z' )
         key = std::toupper( key );
 
+    wxLogMessage("ACTION_MANAGER::RunHotKey aHotKey=%d key=%d mod=%d", aHotKey, key, mod);
+
     HOTKEY_LIST::const_iterator it = m_actionHotKeys.find( key | mod );
 
     // If no luck, try without Shift, to handle keys that require it
@@ -124,10 +126,14 @@ bool ACTION_MANAGER::RunHotKey( int aHotKey ) const
     // different combination
     if( it == m_actionHotKeys.end() )
     {
+        wxLogMessage("ACTION_MANAGER::RunHotKey not found, trying without shift");
+
         it = m_actionHotKeys.find( key | ( mod & ~MD_SHIFT ) );
 
-        if( it == m_actionHotKeys.end() )
+        if( it == m_actionHotKeys.end() ){
+            wxLogMessage("ACTION_MANAGER::RunHotKey not found! returning false");
             return false; // no appropriate action found for the hotkey
+        }
     }
 
     const std::list<TOOL_ACTION*>& actions = it->second;
@@ -167,14 +173,20 @@ bool ACTION_MANAGER::RunHotKey( int aHotKey ) const
 
     if( context )
     {
+       wxLogMessage("ACTION_MANAGER::RunHotKey context");
+
         m_toolMgr->RunAction( *context, true );
         return true;
     }
     else if( global )
     {
+    wxLogMessage("ACTION_MANAGER::RunHotKey global name=%s toolname=%s id=%d menuitem=%s",
+     global->GetName(), global->GetToolName(), global->GetId(), global->GetMenuItem() );
+
         m_toolMgr->RunAction( *global, true );
         return true;
     }
+           wxLogMessage("ACTION_MANAGER::RunHotKey no context or global");
 
     return false;
 }

@@ -96,6 +96,7 @@ static const wxString MaxUndoItemsEntry(wxT( "DevelMaxUndoItems" ) );
 
 BEGIN_EVENT_TABLE( EDA_DRAW_FRAME, KIWAY_PLAYER )
     EVT_CHAR_HOOK( EDA_DRAW_FRAME::OnCharHook )
+    //EVT_CHAR( EDA_DRAW_FRAME::OnKeyEvent )
 
     EVT_MOUSEWHEEL( EDA_DRAW_FRAME::OnMouseEvent )
     EVT_MENU_OPEN( EDA_DRAW_FRAME::OnMenuOpen )
@@ -238,8 +239,17 @@ void EDA_DRAW_FRAME::OnCharHook( wxKeyEvent& event )
     // Key events can be filtered here.
     // Currently no filtering is made.
     wxLogMessage("common/draw_frame.cpp EDA_DRAW_FRAME:OnCharHook skip. key = %d", event.GetKeyCode());
+    //m_canvas->OnKeyEvent(event);
     event.Skip();
 }
+// void EDA_DRAW_FRAME::OnKeyEvent( wxKeyEvent& event )
+// {
+//     int localkey;
+//     localkey = event.GetKeyCode();
+//      wxLogMessage("common/draw_frame.cpp EDA_DRAW_FRAME:OnKeyEvent skip %d", localkey);
+
+//     event.Skip();
+// }
 
 
 void EDA_DRAW_FRAME::ReleaseFile()

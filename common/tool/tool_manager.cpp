@@ -278,6 +278,7 @@ void TOOL_MANAGER::UnregisterAction( TOOL_ACTION* aAction )
 bool TOOL_MANAGER::RunAction( const std::string& aActionName, bool aNow, void* aParam )
 {
     TOOL_ACTION* action = m_actionMgr->FindAction( aActionName );
+    wxLogMessage( "TOOL_MANAGER::RunAction aActionName=%s", aActionName );
 
     if( !action )
     {
@@ -293,7 +294,9 @@ bool TOOL_MANAGER::RunAction( const std::string& aActionName, bool aNow, void* a
 
 void TOOL_MANAGER::RunAction( const TOOL_ACTION& aAction, bool aNow, void* aParam )
 {
+
     TOOL_EVENT event = aAction.MakeEvent();
+    wxLogMessage( "TOOL_MANAGER::RunAction aAction, event.keycode=%d event.action=%d", event.KeyCode(), event.Action() );
 
     // Allow to override the action parameter
     if( aParam )
@@ -863,9 +866,13 @@ void TOOL_MANAGER::popViewControls()
 
 bool TOOL_MANAGER::processEvent( const TOOL_EVENT& aEvent )
 {
+    wxLogMessage("TOOL_MANAGER::processEvent start" );
+
     // Early dispatch of events destined for the TOOL_MANAGER
     if( !dispatchStandardEvents( aEvent ) )
         return true;
+
+    wxLogMessage("TOOL_MANAGER::processEvent dispatchStandardEvents()==true" );
 
     dispatchInternal( aEvent );
     dispatchActivation( aEvent );

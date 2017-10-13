@@ -206,6 +206,7 @@ public:
      * used as hotkey (otherwise the key events will be not sent to menus)
      */
     virtual void OnCharHook( wxKeyEvent& event );
+   // virtual void OnKeyEvent( wxKeyEvent& event );
 
     /**
      * Function LockFile
